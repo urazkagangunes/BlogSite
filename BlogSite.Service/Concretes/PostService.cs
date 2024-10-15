@@ -4,6 +4,7 @@ using BlogSite.Models.Dtos.Post.Request;
 using BlogSite.Models.Dtos.Post.Response;
 using BlogSite.Models.Entities;
 using BlogSite.Service.Abstracts;
+using Core.Responses;
 
 namespace BlogSite.Service.Concretes;
 
@@ -16,21 +17,49 @@ public class PostService : IPostService
         _postRepository = postRepository;
         _mapper = mapper;
     }
-    public Post Add(CreatePostRequest create)
+    ReturnModel<PostResponseDto> IPostService.Add(CreatePostRequest create)
     {
-        Post post = _mapper.Map<Post>(create);
-        Post createdPost = _postRepository.Add(post);
+        Post createdPost = _mapper.Map<Post>(create);
+        createdPost.Id = Guid.NewGuid();
 
-        return createdPost;
+        _postRepository.Add(createdPost);
+
+        PostResponseDto response = _mapper.Map<PostResponseDto>(createdPost);
+
+        return new ReturnModel<PostResponseDto>
+        {
+            Data = response,
+            Message = "Post Eklendi",
+            StatusCode = 200,
+            Success = true
+        };
     }
 
-    public List<PostResponseDto> GetAll()
+    ReturnModel<List<PostResponseDto>> IPostService.GetAll()
     {
-        throw new NotImplementedException();
+        List<Post> posts = _postRepository.GetAll().ToList();
+        List<PostResponseDto> responses = _mapper.Map<List<PostResponseDto>>(posts);
+
+        return new ReturnModel<List<PostResponseDto>>
+        {
+            Data = responses,
+            Message = "Tüm veriler getirildi.",
+            StatusCode = 200,
+            Success = true
+        };
     }
 
-    public PostResponseDto GetById(int id)
+    ReturnModel<PostResponseDto> IPostService.GetById(Guid id)
     {
-        throw new NotImplementedException();
+        Post? post = _postRepository.GetById(id);
+        PostResponseDto responseDto = _mapper.Map<PostResponseDto>(_postRepository);
+
+        return new ReturnModel<PostResponseDto>
+        {
+            Data = responseDto,
+            Message = "Verilen id'ye ait veri getirildi.",
+            StatusCode = 200,
+            Success = true
+        };
     }
 }

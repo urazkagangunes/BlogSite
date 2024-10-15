@@ -1,12 +1,13 @@
 ﻿using BlogSite.Models.Dtos.Post.Request;
 using BlogSite.Models.Dtos.Post.Response;
 using BlogSite.Models.Entities;
+using Core.Responses;
 
 namespace BlogSite.Service.Abstracts;
 
 public interface IPostService
 {
-    List<PostResponseDto> GetAll();
-    PostResponseDto GetById(int id);
-    Post Add(CreatePostRequest create);
+    ReturnModel<List<PostResponseDto>> GetAll();
+    ReturnModel<PostResponseDto> GetById(Guid id);
+    ReturnModel<PostResponseDto> Add(CreatePostRequest create);
 }
