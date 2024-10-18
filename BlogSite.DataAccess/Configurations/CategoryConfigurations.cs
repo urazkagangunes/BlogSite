@@ -17,7 +17,7 @@ public class CategoryConfigurations : IEntityTypeConfiguration<Category>
         builder
             .HasMany(x => x.Posts)
             .WithOne(c => c.Category)
-            .HasForeignKey(c => c.Id)
+            .HasForeignKey(c => c.CategoryId)
             .OnDelete(DeleteBehavior.NoAction);
 
         builder.HasData(new Category

@@ -25,7 +25,7 @@ public class UserConfigurations : IEntityTypeConfiguration<User>
 
         builder.HasMany(x => x.Comments)
             .WithOne(x => x.User)
-            .HasForeignKey(x => x.User.Id)
+            .HasForeignKey(x => x.UserId)
             .OnDelete(DeleteBehavior.NoAction);
     }
 }
