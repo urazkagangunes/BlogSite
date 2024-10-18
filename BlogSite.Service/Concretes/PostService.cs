@@ -17,6 +17,49 @@ public class PostService : IPostService
         _postRepository = postRepository;
         _mapper = mapper;
     }
+
+    public ReturnModel<PostResponseDto> Remove(Guid id)
+    {
+        Post post = _postRepository.GetById(id);
+        Post deletedPost = _postRepository.Remove(post);
+
+        PostResponseDto response = _mapper.Map<PostResponseDto>(deletedPost);
+
+        return new ReturnModel<PostResponseDto>
+        {
+            Data = response,
+            Message = "Post silindi.",
+            StatusCode = 200,
+            Success = true
+        };
+    }
+
+    public ReturnModel<PostResponseDto> Update(UpdatePostRequest updated)
+    {
+        Post post =_postRepository.GetById(updated.Id);
+        
+        Post update = new Post
+        {
+            CategoryId = post.CategoryId,
+            Content = updated.Content,
+            Title = updated.Title,
+            AuthorId = post.AuthorId,
+            CreatedDate = post.CreatedDate,
+        };
+
+        Post updatedPost = _postRepository.Update(update);
+
+        PostResponseDto responseDto = _mapper.Map<PostResponseDto>(updatedPost);
+
+        return new ReturnModel<PostResponseDto>
+        {
+            Data = responseDto,
+            Message = "Post güncellendi.",
+            StatusCode = 200,
+            Success = true
+        };
+    }
+
     ReturnModel<PostResponseDto> IPostService.Add(CreatePostRequest create)
     {
         Post createdPost = _mapper.Map<Post>(create);
@@ -52,7 +95,7 @@ public class PostService : IPostService
     ReturnModel<PostResponseDto> IPostService.GetById(Guid id)
     {
         Post? post = _postRepository.GetById(id);
-        PostResponseDto responseDto = _mapper.Map<PostResponseDto>(_postRepository);
+        PostResponseDto responseDto = _mapper.Map<PostResponseDto>(post);
 
         return new ReturnModel<PostResponseDto>
         {

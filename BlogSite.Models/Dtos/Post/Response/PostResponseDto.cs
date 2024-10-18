@@ -1,9 +1,11 @@
 ﻿namespace BlogSite.Models.Dtos.Post.Response;
 
 public sealed record PostResponseDto
-    (
-        Guid Id,
-        string Title,
-        string Content,
-        DateTime CreatedDate
-    );
+{
+    public Guid Id { get; init; }
+    public string Title { get; init; }
+    public string Content { get; init; }
+    public DateTime CreatedDate { get; init; }
+    public string UserName { get; init; }
+    public string Category { get; init; }
+}

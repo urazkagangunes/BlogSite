@@ -3,6 +3,8 @@
 public sealed record CreatePostRequest
     (
         string Title, 
-        string Content
+        string Content,
+        int CategoryId,
+        long AuthorId
     );
 

@@ -10,6 +10,9 @@ public class MappingProfiles : Profile
     public MappingProfiles()
     {
         CreateMap<CreatePostRequest, Post>();
-        CreateMap<Post, PostResponseDto>();
+        CreateMap<UpdatePostRequest, Post>();
+        CreateMap<Post, PostResponseDto>()
+            .ForMember(x => x.Category, opt => opt.MapFrom(x => x.Category.Name))
+            .ForMember(x => x.UserName, opt => opt.MapFrom(x => x.Author.UserName));
     }
 }
