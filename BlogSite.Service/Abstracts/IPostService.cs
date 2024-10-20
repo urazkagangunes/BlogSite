@@ -1,6 +1,5 @@
 ﻿using BlogSite.Models.Dtos.Post.Request;
 using BlogSite.Models.Dtos.Post.Response;
-using BlogSite.Models.Entities;
 using Core.Responses;
 
 namespace BlogSite.Service.Abstracts;

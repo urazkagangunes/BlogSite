@@ -18,7 +18,7 @@ public class PostService : IPostService
         _mapper = mapper;
     }
 
-    public ReturnModel<PostResponseDto> Remove(Guid id)
+    ReturnModel<PostResponseDto> IPostService.Remove(Guid id)
     {
         Post post = _postRepository.GetById(id);
         Post deletedPost = _postRepository.Remove(post);
@@ -34,7 +34,7 @@ public class PostService : IPostService
         };
     }
 
-    public ReturnModel<PostResponseDto> Update(UpdatePostRequest updated)
+    ReturnModel<PostResponseDto> IPostService.Update(UpdatePostRequest updated)
     {
         Post post =_postRepository.GetById(updated.Id);
         

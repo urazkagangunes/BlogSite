@@ -18,7 +18,7 @@ public class Posts : ControllerBase
     }
 
     [HttpGet("GetAll")]
-    public ActionResult<ReturnModel<List<PostResponseDto>>> GetAll()
+    public IActionResult GetAll()
     {
         var result = _postService.GetAll();
         return Ok(result);

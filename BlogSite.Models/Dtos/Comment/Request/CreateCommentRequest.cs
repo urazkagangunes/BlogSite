@@ -1,6 +1,6 @@
 ﻿namespace BlogSite.Models.Dtos.Comment.Request;
 
-internal class CreateCommentRequest
+public class CreateCommentRequest
     (
         string Text,
         long UserId,
