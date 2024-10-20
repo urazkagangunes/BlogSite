@@ -1,4 +1,6 @@
-﻿namespace BlogSite.Models.Dtos.Post.Response;
+﻿using BlogSite.Models.Entities;
+
+namespace BlogSite.Models.Dtos.Post.Response;
 
 public sealed record PostResponseDto
 {
