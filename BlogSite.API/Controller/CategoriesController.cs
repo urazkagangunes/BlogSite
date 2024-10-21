@@ -7,10 +7,10 @@ namespace BlogSite.API.Controller;
 
 [Route("api/[controller]")]
 [ApiController]
-public class Categories : ControllerBase
+public class CategoriesController : ControllerBase
 {
     private readonly ICategoryService _categoryService;
-    public Categories(ICategoryService categoryService)
+    public CategoriesController(ICategoryService categoryService)
     {
         _categoryService = categoryService;
     }

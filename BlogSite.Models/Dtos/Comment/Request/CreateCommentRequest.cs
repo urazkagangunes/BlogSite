@@ -1,6 +1,6 @@
 ﻿namespace BlogSite.Models.Dtos.Comment.Request;
 
-public class CreateCommentRequest
+public sealed record CreateCommentRequest
     (
         string Text,
         long UserId,

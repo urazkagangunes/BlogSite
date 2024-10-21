@@ -8,11 +8,11 @@ namespace BlogSite.API.Controller;
 
 [Route("api/[controller]")]
 [ApiController]
-public class Posts : ControllerBase
+public class PostsController : ControllerBase
 {
     private readonly IPostService _postService;
 
-    public Posts(IPostService postService)
+    public PostsController(IPostService postService)
     {
         _postService = postService;
     }

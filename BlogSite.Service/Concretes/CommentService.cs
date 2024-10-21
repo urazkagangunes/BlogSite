@@ -21,7 +21,6 @@ public class CommentService : ICommentService
     ReturnModel<CommentResponseDto> ICommentService.Add(CreateCommentRequest createCommentRequest)
     {
         Comment createComment = _mapper.Map<Comment>(createCommentRequest);
-        createComment.Id = Guid.NewGuid();
 
         _commentRepository.Add(createComment);
 

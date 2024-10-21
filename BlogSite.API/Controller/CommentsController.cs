@@ -7,11 +7,11 @@ namespace BlogSite.API.Controller;
 
 [Route("api/[controller]")]
 [ApiController]
-public class Comments : ControllerBase
+public class CommentsController : ControllerBase
 {
     private readonly ICommentService _commentService;
 
-    public Comments(ICommentService commentService)
+    public CommentsController(ICommentService commentService)
     {
         _commentService = commentService;
     }

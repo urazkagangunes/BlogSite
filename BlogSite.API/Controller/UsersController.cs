@@ -7,11 +7,11 @@ namespace BlogSite.API.Controller;
 
 [Route("api/[controller]")]
 [ApiController]
-public class Users : ControllerBase
+public class UsersController : ControllerBase
 {
     private readonly IUserService _userService;
 
-    public Users(IUserService userService)
+    public UsersController(IUserService userService)
     {
         _userService = userService;
     }

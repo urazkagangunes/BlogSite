@@ -82,22 +82,35 @@ public class CategoryService : ICategoryService
 
     ReturnModel<CategoryResponseDto> ICategoryService.Update(UpdateCategoryRequest updateCategoryRequest)
     {
-        Category category = _categoryRepository.GetById(updateCategoryRequest.Id);
-        
+        Category? category = _categoryRepository.GetById(updateCategoryRequest.Id);
+
+        if (category == null)
+        {
+            return new ReturnModel<CategoryResponseDto>
+            {
+                Data = null,
+                Message = "Category not found",
+                StatusCode = 404,
+                Success = false
+            };
+        }
+
         Category updateCategory = new Category
         {
             Name = updateCategoryRequest.Name,
         };
-        
+
         Category updatedCategory = _categoryRepository.Update(updateCategory);
+
         CategoryResponseDto categoryResponseDto = _mapper.Map<CategoryResponseDto>(updatedCategory);
 
         return new ReturnModel<CategoryResponseDto>
         {
             Data = categoryResponseDto,
-            Message = "Choosen Id updated",
+            Message = "Category updated successfully",
             StatusCode = 200,
             Success = true
         };
     }
+
 }
