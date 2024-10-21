@@ -5,6 +5,8 @@ using BlogSite.Models.Dtos.Post.Response;
 using BlogSite.Models.Entities;
 using BlogSite.Service.Abstracts;
 using Core.Responses;
+using Microsoft.EntityFrameworkCore.Storage.Json;
+using System.Linq.Expressions;
 
 namespace BlogSite.Service.Concretes;
 
@@ -20,89 +22,157 @@ public class PostService : IPostService
 
     ReturnModel<PostResponseDto> IPostService.Remove(Guid id)
     {
-        Post post = _postRepository.GetById(id);
-        Post deletedPost = _postRepository.Remove(post);
-
-        PostResponseDto response = _mapper.Map<PostResponseDto>(deletedPost);
-
-        return new ReturnModel<PostResponseDto>
+        try
         {
-            Data = response,
-            Message = "Post silindi.",
-            StatusCode = 200,
-            Success = true
-        };
+            Post post = _postRepository.GetById(id);
+            Post deletedPost = _postRepository.Remove(post);
+
+            PostResponseDto response = _mapper.Map<PostResponseDto>(deletedPost);
+
+            return new ReturnModel<PostResponseDto>
+            {
+                Data = response,
+                Message = "Post silindi.",
+                StatusCode = 200,
+                Success = true
+            };
+        }
+        catch (Exception ex)
+        {
+            return new ReturnModel<PostResponseDto>
+            {
+                Data = null,
+                Message = ex.Message,
+                StatusCode = 500,
+                Success = false
+            };
+        }
+        
     }
 
     ReturnModel<PostResponseDto> IPostService.Update(UpdatePostRequest updated)
     {
-        Post post =_postRepository.GetById(updated.Id);
-        
-        Post update = new Post
+        try
         {
-            CategoryId = post.CategoryId,
-            Content = updated.Content,
-            Title = updated.Title,
-            AuthorId = post.AuthorId,
-            CreatedDate = post.CreatedDate,
-        };
+            Post post = _postRepository.GetById(updated.Id);
 
-        Post updatedPost = _postRepository.Update(update);
+            Post update = new Post
+            {
+                CategoryId = post.CategoryId,
+                Content = updated.Content,
+                Title = updated.Title,
+                AuthorId = post.AuthorId,
+                CreatedDate = post.CreatedDate,
+            };
 
-        PostResponseDto responseDto = _mapper.Map<PostResponseDto>(updatedPost);
+            Post updatedPost = _postRepository.Update(update);
 
-        return new ReturnModel<PostResponseDto>
+            PostResponseDto responseDto = _mapper.Map<PostResponseDto>(updatedPost);
+
+            return new ReturnModel<PostResponseDto>
+            {
+                Data = responseDto,
+                Message = "Post güncellendi.",
+                StatusCode = 200,
+                Success = true
+            };
+        }
+        catch(Exception ex)
         {
-            Data = responseDto,
-            Message = "Post güncellendi.",
-            StatusCode = 200,
-            Success = true
-        };
+            return new ReturnModel<PostResponseDto>
+            {
+                Data = null,
+                Message = ex.Message,
+                StatusCode = 500,
+                Success = false
+            };
+        }
     }
 
     ReturnModel<PostResponseDto> IPostService.Add(CreatePostRequest create)
     {
-        Post createdPost = _mapper.Map<Post>(create);
-        createdPost.Id = Guid.NewGuid();
-
-        _postRepository.Add(createdPost);
-
-        PostResponseDto response = _mapper.Map<PostResponseDto>(createdPost);
-
-        return new ReturnModel<PostResponseDto>
+        try
         {
-            Data = response,
-            Message = "Post Eklendi",
-            StatusCode = 200,
-            Success = true
-        };
+            Post createdPost = _mapper.Map<Post>(create);
+            createdPost.Id = Guid.NewGuid();
+
+            _postRepository.Add(createdPost);
+
+            PostResponseDto response = _mapper.Map<PostResponseDto>(createdPost);
+
+            return new ReturnModel<PostResponseDto>
+            {
+                Data = response,
+                Message = "Post Eklendi",
+                StatusCode = 200,
+                Success = true
+            };
+        }
+        catch (Exception ex)
+        {
+            return new ReturnModel<PostResponseDto>
+            {
+                Data = null,
+                Message = ex.Message,
+                StatusCode = 500,
+                Success = false
+            };
+        }
     }
 
     ReturnModel<List<PostResponseDto>> IPostService.GetAll()
     {
-        List<Post> posts = _postRepository.GetAll().ToList();
-        List<PostResponseDto> responses = _mapper.Map<List<PostResponseDto>>(posts);
-
-        return new ReturnModel<List<PostResponseDto>>
+        try
         {
-            Data = responses,
-            Message = "Tüm veriler getirildi.",
-            StatusCode = 200,
-            Success = true
-        };
+            List<Post> posts = _postRepository.GetAll().ToList();
+            List<PostResponseDto> responses = _mapper.Map<List<PostResponseDto>>(posts);
+
+            return new ReturnModel<List<PostResponseDto>>
+            {
+                Data = responses,
+                Message = "Tüm veriler getirildi.",
+                StatusCode = 200,
+                Success = true
+            };
+        }
+        catch(Exception ex)
+        {
+            return new ReturnModel<List<PostResponseDto>>
+            {
+                Data = null,
+                Message = ex.Message,
+                StatusCode = 500,
+                Success = false
+            };
+        }
+        
     }
 
     ReturnModel<PostResponseDto> IPostService.GetById(Guid id)
     {
-        Post? post = _postRepository.GetById(id);
-        PostResponseDto responseDto = _mapper.Map<PostResponseDto>(post);
-
-        return new ReturnModel<PostResponseDto>
+        try
         {
-            Data = responseDto,
-            Message = "Verilen id'ye ait veri getirildi.",
-            StatusCode = 200,
-            Success = true
-        };
+            Post? post = _postRepository.GetById(id);
+            PostResponseDto responseDto = _mapper.Map<PostResponseDto>(post);
+
+            return new ReturnModel<PostResponseDto>
+            {
+                Data = responseDto,
+                Message = "Verilen id'ye ait veri getirildi.",
+                StatusCode = 200,
+                Success = true
+            };
+        }
+        catch(Exception ex)
+        {
+            return new ReturnModel<PostResponseDto>
+            {
+                Data = null,
+                Message = ex.Message,
+                StatusCode = 500,
+                Success = false
+            };
+        }
+        
     }
 }
