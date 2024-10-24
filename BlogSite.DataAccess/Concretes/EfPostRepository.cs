@@ -11,4 +11,9 @@ public class EfPostRepository : EfRepositoryBase<BaseDbContext, Post, Guid>, IPo
     {
         
     }
+
+    public List<Post> GetAllByAuthorId(string id)
+    {
+        return Context.Posts.Where(x => x.AuthorId == id).ToList();
+    }
 }

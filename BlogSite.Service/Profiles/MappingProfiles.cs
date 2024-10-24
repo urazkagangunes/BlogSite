@@ -30,8 +30,8 @@ public class MappingProfiles : Profile
         CreateMap<Comment, CommentResponseDto>()
             .ForMember(x => x.Post, opt => opt.MapFrom(x => x.Post));
 
-        CreateMap<CreateUserRequest, User>();
-        CreateMap<UpdateUserRequest, User>();
+        //CreateMap<CreateUserRequest, User>();
+        //CreateMap<UpdateUserRequest, User>();
         CreateMap<User, UserResponseDto>();
     }
 }

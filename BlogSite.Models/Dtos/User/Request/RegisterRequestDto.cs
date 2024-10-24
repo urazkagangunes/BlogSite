@@ -1,11 +1,12 @@
 ﻿namespace BlogSite.Models.Dtos.User.Request;
 
-public sealed record UpdateUserRequest
+public sealed record RegisterRequestDto
     (
-        long Id,
         string FirstName,
         string LastName,
-        string UserName,
         string Email,
-        string Password
+        string Password,
+        string UserName,
+        string City
     );
+

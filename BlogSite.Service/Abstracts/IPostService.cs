@@ -11,4 +11,7 @@ public interface IPostService
     ReturnModel<PostResponseDto> Add(CreatePostRequest create);
     ReturnModel<PostResponseDto> Update(UpdatePostRequest update);
     ReturnModel<PostResponseDto> Remove(Guid id);
+    ReturnModel<List<PostResponseDto>> GetAllByCategoryId(int id);
+    ReturnModel<List<PostResponseDto>> GetAllByAuthorId(string id);
+
 }

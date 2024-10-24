@@ -1,9 +1,11 @@
 using BlogSite.DataAccess.Abstracts;
 using BlogSite.DataAccess.Concretes;
 using BlogSite.DataAccess.Contexts;
+using BlogSite.Models.Entities;
 using BlogSite.Service.Abstracts;
 using BlogSite.Service.Concretes;
 using BlogSite.Service.Profiles;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 
@@ -23,7 +25,14 @@ builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<ICommentRepository, EfCommentRepository>();
 builder.Services.AddScoped<ICommentService, CommentService>();
 
-builder.Services.AddScoped<IUserRepository, EfUserRepository>();
+//builder.Services.AddScoped<IUserRepository, EfUserRepository>();
+builder.Services.AddIdentity<User, IdentityRole>(opt =>
+{
+    opt.User.RequireUniqueEmail = true;
+    opt.Password.RequireNonAlphanumeric = false;
+    opt.Password.RequiredLength = 8;
+}).AddEntityFrameworkStores<BaseDbContext>();
+
 builder.Services.AddScoped<IUserService, UserService>();
 
 builder.Services.AddEndpointsApiExplorer();

@@ -175,4 +175,37 @@ public class PostService : IPostService
         }
         
     }
+
+    public ReturnModel<List<PostResponseDto>> GetAllByCategoryId(int id)
+    {
+        throw new NotImplementedException();
+    }
+
+    public ReturnModel<List<PostResponseDto>> GetAllByAuthorId(string id)
+    {
+        try
+        {
+            var posts = _postRepository.GetAll(x => x.AuthorId == id);
+            var responses = _mapper.Map<List<PostResponseDto>>(posts);
+
+            return new ReturnModel<List<PostResponseDto>>
+            {
+                Data = responses,
+                Message = "Author id listed",
+                StatusCode = 200,
+                Success = true
+            };
+
+        }
+        catch(Exception ex)
+        {
+            return new ReturnModel<List<PostResponseDto>>
+            {
+                Data = null,
+                Message = ex.Message,
+                StatusCode = 500,
+                Success = false
+            };
+        }
+    }
 }

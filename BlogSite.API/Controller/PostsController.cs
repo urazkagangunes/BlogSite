@@ -51,4 +51,11 @@ public class PostsController : ControllerBase
         var result = _postService.Update(updatePostRequest);
         return Ok(result);
     }
+
+    //[HttpGet("author")]
+    //public IActionResult GetAllByAuthorId([FromQuery] long id)
+    //{
+    //    var results = _postService.GetAllByAuthorId(id);
+    //    return Ok(results);
+    //}
 }
