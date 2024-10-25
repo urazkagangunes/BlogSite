@@ -5,6 +5,7 @@ using BlogSite.Models.Entities;
 using BlogSite.Service.Abstracts;
 using BlogSite.Service.Concretes;
 using BlogSite.Service.Profiles;
+using Core.Tokens.Configurations;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
@@ -24,6 +25,11 @@ builder.Services.AddScoped<ICategoryService, CategoryService>();
 
 builder.Services.AddScoped<ICommentRepository, EfCommentRepository>();
 builder.Services.AddScoped<ICommentService, CommentService>();
+
+builder.Services.AddScoped<IJwtService, JwtService>();
+builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
+
+builder.Services.Configure<TokenOption>(builder.Configuration.GetSection("TokenOption"));
 
 //builder.Services.AddScoped<IUserRepository, EfUserRepository>();
 builder.Services.AddIdentity<User, IdentityRole>(opt =>

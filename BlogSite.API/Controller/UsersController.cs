@@ -1,6 +1,5 @@
 ﻿using BlogSite.Models.Dtos.User.Request;
 using BlogSite.Service.Abstracts;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BlogSite.API.Controller;
@@ -16,12 +15,12 @@ public class UsersController : ControllerBase
         _userService = userService;
     }
 
-    [HttpPost("register")]
-    public async Task<IActionResult> Register([FromBody] RegisterRequestDto dto)
-    {
-        var result = await _userService.RegisterAsync(dto);
-        return Ok(result);
-    }
+    //[HttpPost("register")]
+    //public async Task<IActionResult> Register([FromBody] RegisterRequestDto dto)
+    //{
+    //    var result = await _userService.RegisterAsync(dto);
+    //    return Ok(result);
+    //}
 
     [HttpGet("getbyemail")]
     public async Task<IActionResult> GetByEmail([FromQuery] string email)
