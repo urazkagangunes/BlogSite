@@ -23,11 +23,7 @@ public sealed class UserService(UserManager<User> _userManager) : IUserService
         }
 
         var result = await _userManager.ChangePasswordAsync(user, changePasswordRequestDto.CurrentPassword, changePasswordRequestDto.NewPassword);
-
-        if (result.Succeeded)
-        {
-            throw new BusinessException(result.Errors.ToList().First().Description);
-        }
+        CheckForIdentityResult(result);
 
         return user;
     }
@@ -42,11 +38,7 @@ public sealed class UserService(UserManager<User> _userManager) : IUserService
         }
 
         var result = await _userManager.DeleteAsync(user);
-
-        if(result.Succeeded is false)
-        {
-            throw new BusinessException(result.Errors.ToList().First().Description);
-        }
+        CheckForIdentityResult(result);
 
         return "Kullanıcı silindi.";
     }
@@ -94,11 +86,11 @@ public sealed class UserService(UserManager<User> _userManager) : IUserService
         };
 
         var result = await _userManager.CreateAsync(user, registerDto.Password);
+        CheckForIdentityResult(result);
 
-        if(!result.Succeeded)
-        {
-            throw new (result.Errors.ToList().First().Description);
-        }
+        var addRole = await _userManager.AddToRoleAsync(user, "User");
+        CheckForIdentityResult(addRole);
+       
 
         return user;
     }
@@ -118,13 +110,17 @@ public sealed class UserService(UserManager<User> _userManager) : IUserService
         user.City = updateDto.City;
 
         var result = await _userManager.UpdateAsync(user);
-
-        if(!result.Succeeded)
-        {
-            throw new BusinessException(result.Errors.ToList().First().Description);
-        }
+        CheckForIdentityResult(result);
 
         return user;
+    }
+
+    private void CheckForIdentityResult(IdentityResult result)
+    {
+        if (!result.Succeeded)
+        {
+            throw new(result.Errors.ToList().First().Description);
+        }
     }
 
 

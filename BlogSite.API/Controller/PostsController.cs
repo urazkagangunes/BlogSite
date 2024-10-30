@@ -2,6 +2,8 @@
 using BlogSite.Models.Dtos.Post.Response;
 using BlogSite.Service.Abstracts;
 using Core.Responses;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BlogSite.API.Controller;
@@ -18,6 +20,7 @@ public class PostsController : ControllerBase
     }
 
     [HttpGet("GetAll")]
+    [Authorize(Roles = "User")]
     public IActionResult GetAll()
     {
         var result = _postService.GetAll();
@@ -32,6 +35,7 @@ public class PostsController : ControllerBase
     }
 
     [HttpGet("getById/{id}")]
+    //[Authorize(Roles = "Admin")]
     public IActionResult GetById([FromRoute] Guid id)
     {
         var result = _postService.GetById(id);
