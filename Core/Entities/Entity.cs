@@ -1,8 +1,8 @@
 ﻿namespace Core.Entities;
 
-public abstract class Entity<TId>
+public abstract class Entity<TPrimaryKey>
 {
-    public TId ?Id { get; set; }
+    public TPrimaryKey ?Id { get; set; }
     public DateTime CreatedDate { get; set; }
     public DateTime? UpdatedDate { get; set; }
 }

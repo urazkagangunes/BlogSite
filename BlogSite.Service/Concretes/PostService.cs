@@ -4,23 +4,24 @@ using BlogSite.Models.Dtos.Post.Request;
 using BlogSite.Models.Dtos.Post.Response;
 using BlogSite.Models.Entities;
 using BlogSite.Service.Abstracts;
+using BlogSite.Service.Rules;
 using Core.Responses;
-using Microsoft.EntityFrameworkCore.Storage.Json;
-using System.Linq.Expressions;
 
 namespace BlogSite.Service.Concretes;
 
-public class PostService : IPostService
+public sealed class PostService : IPostService
 {
     private readonly IPostRepository _postRepository;
     private readonly IMapper _mapper;
-    public PostService(IPostRepository postRepository, IMapper mapper)
+    private readonly PostBusinessRules _businessRules;
+    public PostService(IPostRepository postRepository, IMapper mapper, PostBusinessRules businessRules)
     {
         _postRepository = postRepository;
         _mapper = mapper;
+        _businessRules = businessRules;
     }
 
-    ReturnModel<PostResponseDto> IPostService.Remove(Guid id)
+    public ReturnModel<PostResponseDto> Remove(Guid id)
     {
         try
         {
@@ -50,7 +51,7 @@ public class PostService : IPostService
         
     }
 
-    ReturnModel<PostResponseDto> IPostService.Update(UpdatePostRequest updated)
+    public ReturnModel<PostResponseDto> Update(UpdatePostRequest updated)
     {
         try
         {
@@ -89,12 +90,13 @@ public class PostService : IPostService
         }
     }
 
-    ReturnModel<PostResponseDto> IPostService.Add(CreatePostRequest create)
+    public ReturnModel<PostResponseDto> Add(CreatePostRequest create, string userId)
     {
         try
         {
             Post createdPost = _mapper.Map<Post>(create);
             createdPost.Id = Guid.NewGuid();
+            createdPost.AuthorId = userId;
 
             _postRepository.Add(createdPost);
 
@@ -120,11 +122,11 @@ public class PostService : IPostService
         }
     }
 
-    ReturnModel<List<PostResponseDto>> IPostService.GetAll()
+    public ReturnModel<List<PostResponseDto>> GetAll()
     {
         try
         {
-            List<Post> posts = _postRepository.GetAll().ToList();
+            List<Post> posts = _postRepository.GetAll();
             List<PostResponseDto> responses = _mapper.Map<List<PostResponseDto>>(posts);
 
             return new ReturnModel<List<PostResponseDto>>
@@ -148,11 +150,12 @@ public class PostService : IPostService
         
     }
 
-    ReturnModel<PostResponseDto> IPostService.GetById(Guid id)
+    public ReturnModel<PostResponseDto> GetById(Guid id)
     {
         try
         {
             Post? post = _postRepository.GetById(id);
+            _businessRules.PostIsNullCheck(post);
             PostResponseDto responseDto = _mapper.Map<PostResponseDto>(post);
 
             return new ReturnModel<PostResponseDto>

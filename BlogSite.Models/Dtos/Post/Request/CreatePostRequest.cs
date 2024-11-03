@@ -4,7 +4,6 @@ public sealed record CreatePostRequest
     (
         string Title, 
         string Content,
-        int CategoryId,
-        long AuthorId
+        int CategoryId
     );
 

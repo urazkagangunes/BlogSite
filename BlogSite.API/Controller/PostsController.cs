@@ -5,6 +5,7 @@ using Core.Responses;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authorization.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace BlogSite.API.Controller;
 
@@ -30,7 +31,8 @@ public class PostsController : ControllerBase
     [HttpPost("Add")]
     public IActionResult Add(CreatePostRequest createPostRequest)
     {
-        var result = _postService.Add(createPostRequest);
+        var userId = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value;
+        var result = _postService.Add(createPostRequest, userId);
         return Ok(result);
     }
 
