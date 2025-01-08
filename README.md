@@ -10,4 +10,8 @@
 •  Security: Secured the API with JWT authentication to prevent unauthorized access. 
 
 
-• User Management: Applied ASP.NET Identity for authentication and role-based access control. 
+• User Management: Applied ASP.NET Identity for authentication and role-based access control.
+
+
+
+----------------------------------------ASK FOR MORE------------------------------------------ 
